@@ -3,13 +3,10 @@
  */
 var TagModel = require("./models/tag"),
 	ContextModel = require("./models/context"),
-	config = require("./config/configure"),
 	fileLoader = require('./modules/fileLoader'),
 	request = require('request'),
 	async = require('async'),
-	tagCounter = 1,
-	contextServiceUrl = config.contextServiceUrl,
-	doContextLoopup = contextServiceUrl && contextServiceUrl !== "";
+	tagCounter = 1;
 
 /**
  * Private functions.
@@ -27,7 +24,7 @@ var _getTagData = function(currentTagNum, id, next) {
 			return;
 		});
 	},
-	_getContextData = function(currentTagNum, url, orgId, next) {
+	_getContextData = function(currentTagNum, url, contextServiceUrl, orgId, next) {
 		//If there's no referrer, or the tag master already fetched the CT data, skip this step.
 		if (/doubleclick.net/.test(url) || url == undefined || url == "") {
 			console.log("Skipping contextual targeting data for ad #" + currentTagNum + "...");
@@ -65,15 +62,13 @@ var _getTagData = function(currentTagNum, id, next) {
 			return;
 		});
 	},
-	_getStaticFiles = function(currentTagNum, next) {
-		var staticFiles = config.staticFiles;
+	_getStaticFiles = function(currentTagNum, staticFiles, next) {
 		fileLoader.getStatic(staticFiles, null, function(data) {
 			next(null, data);
 		}, currentTagNum);
 	},
-	_getExternalFiles = function(currentTagNum, next) {
+	_getExternalFiles = function(currentTagNum, externalFiles, next) {
 		console.log("Fetching external files for ad #" + currentTagNum + "...");
-		var externalFiles = config.externalFiles;
 		if (!externalFiles || !externalFiles.length) {
 			console.log("\tThere are none!");
 		};
@@ -89,37 +84,37 @@ var Controller = function(options, next) {
 	var currentTagNum = tagCounter++,
 		id = options.id,
 		url = options.url,
-		startTime = Date.now();
+		startTime = Date.now(),
+		config = options.config;
 
-	contextServiceUrl = options.config.contextServiceUrl
 
 	console.log("\nStarting ad #" + currentTagNum + "...");
 
 	async.waterfall([
-		function(next) {
+		function(workflowNext) {
 			_getTagData(currentTagNum, id, function(err, result) {
 				if (!err && !result) result = err = "No tag found with ID " + id + ".";
-				next(err, {
+				workflowNext(err, {
 					tagData: result
 				});
 			});
 		},
-		function(results, next) {
-			_getContextData(currentTagNum, url, results.tagData.orgId, function(err, result) {
+		function(results, workflowNext) {
+			_getContextData(currentTagNum, url, config.contextServiceUrl, results.tagData.orgId, function(err, result) {
 				results.contextData = result;
-				next(err, results);
+				workflowNext(err, results);
 			});
 		},
-		function(results, next) {
-			_getStaticFiles(currentTagNum, function(err, result) {
+		function(results, workflowNext) {
+			_getStaticFiles(currentTagNum, config.staticFiles, function(err, result) {
 				results.staticFiles = result;
-				next(err, results);
+				workflowNext(err, results);
 			});
 		},
-		function(results, next) {
-			_getExternalFiles(currentTagNum, function(err, result) {
+		function(results, workflowNext) {
+			_getExternalFiles(currentTagNum, config.externalFiles, function(err, result) {
 				results.externalFiles = result;
-				next(err, results);
+				workflowNext(err, results);
 			});
 		}
 	], function(err, results) {

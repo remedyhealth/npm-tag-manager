@@ -9,7 +9,7 @@ This module encapsulates a container tag solution, allowing for the remote admin
 **Recommended**
 * Include the module as a dependency in your package.json file: 
 
-    `"npm-contextualizer": "git+https://github.com/HoraceShmorace/npm-tag-manager.git#[insert version here]"`.
+    `"npm-tag-manager": "git+https://github.com/HoraceShmorace/npm-tag-manager.git#[insert version here]"`.
 
 **Manual**
 * `git clone` the repo wherever you want it to live.
