@@ -1,14 +1,22 @@
-# Tag Service
-The Tag Service (TS) is a container tag solution, allowing for the remote administration of ad tags. It is implemented via the TS tag, a small block of markup trafficked as 3rd-party creative in DFP (or other ad server), which calls out to the Tag Service via a script tag, identifying a specific ad tag via an id parameter in the query string of the script tag's src attribute. 
-
-## Installation
-* `git clone` the repo.
-* `npm install`.
-* Edit the environment settings in the `app/config/env` directory. Once you do, be sure to add `/app/config/env/*` to `.gitignore` if you plan to submit pull requests.
+# npm-tag-server
+This module encapsulates a container tag solution, allowing for the remote administration of ad tags. It is implemented via the TS tag, a small block of markup trafficked as 3rd-party creative in DFP (or other ad server), which calls out to the Tag Service via a script tag, identifying a specific ad tag via an id parameter in the query string of the script tag's src attribute. 
 
 ## Requirements
 * Node.js
 * MongoDB
+
+## Installation
+**Recommended**
+* Include the module as a dependency in your package.json file: 
+
+    `"npm-contextualizer": "git+https://github.com/HoraceShmorace/npm-tag-manager.git#[insert version here]"`.
+
+**Manual**
+* `git clone` the repo wherever you want it to live.
+* `npm install`.
+
+## Configuration
+* Copy the example config in the `app/config/config.example.js` directory into your app. You'll need to require this file in your app, and pass it to the npm-contextualizer module ([see Configuration Options below](#configuration-options)).
 
 ## Running the Service
 * At the command line, run `node server.js`.

@@ -87,7 +87,7 @@ var _getTagData = function(currentTagNum, id, next) {
  */
 var Controller = function(options, next) {
 	var currentTagNum = tagCounter++,
-		id = options.tagId,
+		id = options.id,
 		url = options.url,
 		startTime = Date.now();
 
