@@ -1,26 +1,25 @@
 var mongoose = require("mongoose");
-module.exports = mongoose.model("Tag", mongoose.Schema({
+
+var Template = {
 	orgId: String,
 	userId: String,
-	adUnit: String,
-	clickUrl: String,
-	sizes: [String],
-	type: {
+	style: {
 		type: String,
 		enum: ["script", "iframe", "object"],
 		default: "script"
 	},
-	format: {
-		type: String,
-		enum: ["dfp-legacy", "gpt", "oas"],
-		default: "script"
-	},
-	targeting: [{
-		key: String,
-		values: [String]
-	}],
-	date: {
+	dateCreated: {
 		type: Date,
 		default: Date.now()
-	}
-}));
+	},
+	notes: String
+};
+
+var Tag = {
+	template: Template,
+	model: mongoose.model("Tag", mongoose.Schema(Template, {
+		strict: false
+	}))
+};
+
+module.exports = Tag;

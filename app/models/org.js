@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-module.exports = mongoose.model('Org',mongoose.Schema({
+module.exports = mongoose.model('Org', mongoose.Schema({
 	name: String,
 	domains: [String],
 	dictionaries: [mongoose.Schema({

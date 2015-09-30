@@ -1,4 +1,5 @@
 var mongoose = require('mongoose'),
+    babel = require('babel/polyfill'),
     Controller = require('./controller');
 
 var TagManager = function(options, next) {
