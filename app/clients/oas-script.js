@@ -14,9 +14,9 @@
             var term = match;
             var score = __ad_data.context.matches[match].score;
             if(score < 4) {
-                contextTerms[] = 'kwlow='+term;
+                contextTerms.push('kwlow='+term);
             } else {
-                contextTerms[] = 'kwhigh='+term;
+                contextTerms.push('kwhigh='+term);
             }
         }
         OAS_query += contextTerms.join('&');
