@@ -8,6 +8,20 @@
     OAS_query = tag.query || "";
     OAS_exclude = tag.exclude || "";
 
+    if(__ad_data.context.matches) {
+        var contextTerms =[];
+        for (match in __ad_data.context.matches) {
+            var term = match;
+            var score = __ad_data.context.matches[match].score;
+            if(score < 4) {
+                contextTerms[] = 'kwlow='+term;
+            } else {
+                contextTerms[] = 'kwhigh='+term;
+            }
+        }
+        OAS_query += contextTerms.join('&');
+    }
+
     var OAS_RN = new String(Math.random());
     var OAS_RNS = OAS_RN.substring(2, 11);
 
