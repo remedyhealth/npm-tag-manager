@@ -19,7 +19,13 @@
                 contextTerms.push('kwhigh='+term);
             }
         }
+        if(OAS_query != "") {
+            OAS_query += "&";
+        }
         OAS_query += contextTerms.join('&');
+        var _url = __ad_data.context.url;
+        var _urlparts = _url.split('//');
+        OAS_query += '&vhurl='+_urlparts[1];
     }
 
     var OAS_RN = new String(Math.random());
