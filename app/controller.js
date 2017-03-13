@@ -54,7 +54,7 @@ var _getTagData = function(currentTagNum, id, next) {
 			next(null, contextDocument);
 
 			if (!contextDocument && contextServiceUrl && contextServiceUrl != "") {
-				var ctUrl = contextServiceUrl + orgId + "/?u=" + url;
+				var ctUrl = contextServiceUrl + "/" + orgId + "/?u=" + url;
 				console.log("\t* Alert: Contextual targeting data not found for ad #" + currentTagNum + ":", ctUrl);
 				request({
 						method: "GET",
