@@ -8,7 +8,7 @@
     OAS_query = tag.query || "";
     OAS_exclude = tag.exclude || "";
 
-    if(__ad_data.context.matches && __ad_data.context.matches != null) {
+    if(__ad_data.context && __ad_data.context.matches) {
         var contextTerms =[];
         for (match in __ad_data.context.matches) {
             var term = match;
