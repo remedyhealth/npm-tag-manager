@@ -31,6 +31,7 @@
     var OAS_RN = new String(Math.random());
     var OAS_RNS = OAS_RN.substring(2, 11);
 
+    var adid = 'VH'+OAS_pos;
     var sizes = __ad_data.tag.size.split('x');
     var adscript = document.createElement('iframe');
     var adsrc = OAS_url + '/RealMedia/ads/adstream_sx.ads/' + OAS_sitepage + '/1' + OAS_RNS + '@' + OAS_pos + '?_RM_Exclude_=' + OAS_exclude + '&' + OAS_query;
@@ -40,6 +41,10 @@
     adscript.src = adsrc;
     adscript.marginWidth = 0;
     adscript.marginHeight = 0;
-    document.body.appendChild(adscript);
+    try {
+        document.getElementById(adid).appendChild(adscript);
+    } catch(err) {
+        document.body.appendChild(adscript);
+    }
 
 })(__ad_data);
