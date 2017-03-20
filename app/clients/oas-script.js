@@ -31,6 +31,15 @@
     var OAS_RN = new String(Math.random());
     var OAS_RNS = OAS_RN.substring(2, 11);
 
-    document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="' + OAS_url + '/RealMedia/ads/adstream_jx.ads/' + OAS_sitepage + '/1' + OAS_RNS + '@' + OAS_pos + '?_RM_Exclude_=' + OAS_exclude + '&' + OAS_query + '"></scr' + 'ipt>');
+    var sizes = __ad_data.tag.size.split('x');
+    var adscript = document.createElement('iframe');
+    var adsrc = OAS_url + '/RealMedia/ads/adstream_sx.ads/' + OAS_sitepage + '/1' + OAS_RNS + '@' + OAS_pos + '?_RM_Exclude_=' + OAS_exclude + '&' + OAS_query;
+    adscript.width = sizes[0];
+    adscript.height = sizes[1];
+    adscript.frameBorder = 0;
+    adscript.src = adsrc;
+    adscript.marginWidth = 0;
+    adscript.marginHeight = 0;
+    document.body.appendChild(adscript);
 
 })(__ad_data);
