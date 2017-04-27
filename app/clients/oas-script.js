@@ -38,6 +38,7 @@
     adscript.width = sizes[0];
     adscript.height = sizes[1];
     adscript.frameBorder = 0;
+    adscript.scrolling = 'no';
     adscript.src = adsrc;
     adscript.marginWidth = 0;
     adscript.marginHeight = 0;
