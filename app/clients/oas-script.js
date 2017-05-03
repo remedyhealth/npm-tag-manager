@@ -8,6 +8,29 @@
     OAS_query = tag.query || "";
     OAS_exclude = tag.exclude || "";
 
+    // add utm_source to ad server call
+    try {
+        var rawurl = document.location['href'];
+        var rawurlparts = rawurl.split('?');
+        if(rawurlparts[1]) {
+            var rawqueryparts = rawurlparts[1].split('&');
+            var srcstr = '';
+            for(var rawpair in rawqueryparts) {
+                var rawkeys = rawqueryparts[rawpair].split('=');
+                if(rawkeys[0] == 'utm_source') {
+                    srcstr = 'terms=utm_source_'+rawkeys[1];
+                }
+            }
+            if(srcstr != "") {
+                if(OAS_query != "") {
+                    OAS_query += "&";
+                }
+                OAS_query += srcstr;               
+            }
+       }
+    } catch(err) {}
+
+    // parse context data
     if(__ad_data.context && __ad_data.context.matches) {
         var contextTerms =[];
         for (match in __ad_data.context.matches) {
