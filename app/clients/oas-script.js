@@ -10,10 +10,16 @@
 
     // add utm_source to ad server call
     try {
-        var rawurl = document.location['href'];
+        if(document.referrer) {
+            // safeframe implementation
+            var rawurl = document.referrer;
+        } else {
+            // on-page
+            var rawurl = document.location['href'];            
+        }
         var rawurlparts = rawurl.split('?');
         if(rawurlparts[1]) {
-            var rawqueryparts = rawurlparts[1].split('&');
+            var rawqueryparts = rawurlparts[rawurlparts.length - 1].split('&');
             var srcstr = '';
             for(var rawpair in rawqueryparts) {
                 var rawkeys = rawqueryparts[rawpair].split('=');
