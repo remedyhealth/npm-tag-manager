@@ -10,7 +10,7 @@
     "btoa": "^1.1.2",
     "express": "^4.1.1",
     "jsdom": "^3.*",
-    "mongoose": "^4.1.10",
+    "mongoose": "4.1.10",
     "request": "*"
   }
 }
