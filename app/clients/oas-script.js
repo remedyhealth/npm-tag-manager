@@ -1,4 +1,40 @@
-(function(__ad_data) {
+function _getvhid() {
+  var match = RegExp('[?&]vhid=([^&]*)').exec(window.location.search);
+  return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+var _vhs = document.createElement("script");
+_vhs.onload = function() {
+    _VHparseID();
+}
+var _hcpidurl = "//id.verticalhealth.net/script.js";
+var _vhid = _getvhid();
+var _oas_groups = '';
+if(_vhid != null) {
+    _hcpidurl += '?vhid='+vhid;
+}
+_vhs.src = _hcpidurl;
+document.head.appendChild(_vhs);
+function _VHparseID() {
+    for(var g in window.__vhusr.vhgroups) {
+        oas_groups += '&group='+window.__vhusr.vhgroups[g];
+    }
+    __ad_data.groups = oas_groups;
+    // render any pixels for the matched target groups
+    if(window.__vhusr.pixels != undefined) {
+    var _vhpx = document.createElement('div');
+    _vhpx.style = 'display: none;';
+    _vhpx.innerHTML = window.__vhusr.pixels;
+    document.body.appendChild(_vhpx);
+    // pixels are rendered, look for scripts to execute
+    var _vhscrpts = _vhpx.getElementsByTagName('script');
+    for (var _vhn=0; _vhn < _vhscrpts.length; _vhn++) {
+      eval(_vhscrpts[_vhn].innerHTML);
+    }
+    }
+    __render_ad();
+}
+//(function(__ad_data) {
+function __render_ad() {
     if (!__ad_data || !__ad_data.tag || __ad_data.tag === null) return;
     var tag = __ad_data.tag;
     OAS_url = tag.url;
@@ -57,6 +93,10 @@
         OAS_query += '&vhurl='+_urlparts[1];
     }
 
+    if(__ad_data.groups) {
+        OAS_query += __ad_data.groups;
+    }
+
     var OAS_RN = new String(Math.random());
     var OAS_RNS = OAS_RN.substring(2, 11);
 
@@ -77,4 +117,5 @@
         document.body.appendChild(adscript);
     }
 
-})(__ad_data);
+}
+//})(__ad_data);
