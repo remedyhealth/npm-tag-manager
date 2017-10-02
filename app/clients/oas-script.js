@@ -16,9 +16,9 @@ _vhs.src = _hcpidurl;
 document.head.appendChild(_vhs);
 function _VHparseID() {
     for(var g in window.__vhusr.vhgroups) {
-        oas_groups += '&group='+window.__vhusr.vhgroups[g];
+        _oas_groups += '&group='+window.__vhusr.vhgroups[g];
     }
-    __ad_data.groups = oas_groups;
+    __ad_data.groups = _oas_groups;
     // render any pixels for the matched target groups
     if(window.__vhusr.pixels != undefined) {
     var _vhpx = document.createElement('div');
