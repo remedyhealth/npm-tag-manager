@@ -18,6 +18,11 @@ var TagModel = require("./models/tag"),
 			script: {
 				staticFiles: [__dirname + "/clients/oas-script.js"]
 			}
+		},
+		oasjx: {
+			script: {
+				staticFiles: [__dirname + "/clients/oas-jx-script.js"]
+			}
 		}
 	}
 
