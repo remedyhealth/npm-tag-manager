@@ -100,7 +100,7 @@ function __render_ad() {
     var OAS_RN = new String(Math.random());
     var OAS_RNS = OAS_RN.substring(2, 11);
 
-    document.write('<style>body{margin:0;padding:0;}</script>');
+    document.write('<style>body{margin:0;padding:0;}</style>');
     document.write('<scr' + 'ipt language="javascript" type="text/javascript" src="' + OAS_url + '/RealMedia/ads/adstream_jx.ads/' + OAS_sitepage+ '/1' + OAS_RNS + '@' + OAS_pos + '?_RM_Exclude_=' + OAS_exclude + '&' + OAS_query + '"></scr' + 'ipt>');
 
 }
