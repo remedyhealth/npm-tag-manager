@@ -30,6 +30,13 @@ function _VHparseID() {
     for (var _vhn=0; _vhn < _vhscrpts.length; _vhn++) {
       eval(_vhscrpts[_vhn].innerHTML);
     }
+    // convert <span> into scripts
+    var _vhpsuedos = _vhpx.getElementsByTagName('span');
+    for (var _vhn=0; _vhn < _vhpsuedos.length; _vhn++) {
+        var _vhxtra = document.createElement('script');
+        _vhxtra.src = _vhpsuedos[_vhn].innerHTML;
+        _vhpx.appendChild(_vhxtra);
+    }
     }
     __render_ad();
 }
