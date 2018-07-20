@@ -1,48 +1,87 @@
-(function(__ad_data) {
+function _getvhid() {
+  var match = RegExp('[?&]vhid=([^&]*)').exec(window.location.search);
+  return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+var _vhs = document.createElement("script");
+_vhs.onload = function() {
+	_VHparseID();
+}
+var _hcpidurl = '//id.verticalhealth.net/script.js';
+var _vhid = _getvhid();
+var _dfp_groups = [];
+var _dfp_terms = [];
+var _dfp_low = [];
+var _dfp_high = [];
+if(_vhid != null) {
+	_hcpidurl += '?vhid='+vhid;
+}
+_vhs.src = _hcpidurl;
+document.head.appendChild(_vhs);
+function _VHparseID() {
+	for(var g in window.__vhusr.vhgroups) {
+		_dfp_groups.push(window.__vhusr.vhgroups[g]);
+	}
+  // render any pixels for the matched target groups
+  if(window.__vhusr.pixels != undefined) {
+    var _vhpx = document.createElement('div');
+    _vhpx.style = 'display: none;';
+    _vhpx.innerHTML = window.__vhusr.pixels;
+    document.body.appendChild(_vhpx);
+    // pixels are rendered, look for scripts to execute
+    var _vhscrpts = _vhpx.getElementsByTagName('script');
+    for (var _vhn=0; _vhn < _vhscrpts.length; _vhn++) {
+      eval(_vhscrpts[_vhn].innerHTML);
+    }
+    // convert <span> into scripts
+    var _vhpsuedos = _vhpx.getElementsByTagName('span');
+    for (var _vhn=0; _vhn < _vhpsuedos.length; _vhn++) {
+        var _vhxtra = document.createElement('script');
+        _vhxtra.src = _vhpsuedos[_vhn].innerHTML;
+        _vhpx.appendChild(_vhxtra);
+    }
+  }
+	__render_ad();
+}
+//(function(__ad_data) {
+function __render_ad() {
 	if (!__ad_data || !__ad_data.tag || __ad_data.tag === null) return;
 
-	/**
-	 * The page URL, to be passed into the ad server.
-	 * @type String
-	 */
-	var url = (function() {
-		var AD_SERVER_URL_MACRO = "JSVQQVRURVJOOnVybCUl";
-		var q = {};
-		var a = document.getElementById("adsuite");
-		if (a) {
-			var s = a.src;
-			s.replace(
-				new RegExp("([^?=&]+)(=([^&]*))?", "g"),
-				function($0, $1, $2, $3) {
-					q[$1] = $3;
+	// add utm_source to add server call
+	try {
+		if(document.referrer) {
+			var rawurl = document.referrer;
+		} else {
+			var rawurl = document.location['href'];
+		}
+		var rawurlparts = rawurl.split('?');
+		if(rawurlparts[1]) {
+			var rawqueryparts = rawurlparts[rawurlparts.length - 1].split('&');
+			var srcstr = '';
+			for (var rawpair in rawqueryparts) {
+				var rawkeys = rawqueryparts[rawpair].split('=');
+				if(rawkeys[0] == 'utm_source') {
+					_dfp_terms.push('utm_source_'+rawkeys[1]);
 				}
-			);
+			}
 		}
-		var u = q['url'];
+	} catch(err) {}
 
-		//The following ensures that an unresolved ad server macro doesn't accidentally get used as the url.
-		if (!u || btoa(u) === "" || btoa(u) === AD_SERVER_URL_MACRO) {
-			u = location.href;
-			break;
+
+
+	// parse context data
+	if(__ad_data.context && __ad_data.context.matches) {
+		var contextTerms = [];
+		for(match in __ad_data.context.matches) {
+			var term = match;
+			var score = __ad_data.context.matches[match].score;
+			if(score < 4) {
+				_dfp_low.push(term);
+			} else {
+				_dfp_high.push(term);
+			}
 		}
+	}
 
-		return u;
-	})();
-
-	/**
-	 * Formats contextual keywords as an array.
-	 * @type Array
-	 */
-	var context = (function() {
-		var c = [],
-			k = typeof __ad_data.context != "undefined" && __ad_data.context != null && typeof __ad_data.context.matches == "object" ? __ad_data.context.matches : null;
-		if (!k) return;
-		for (var t in k) {
-			if (!k.hasOwnProperty(t)) continue;
-			c.push(t);
-		}
-		return c;
-	})();
 
 	/**
 	 * Format sizes as an array.
@@ -51,11 +90,9 @@
 	 */
 	var sizes = (function() {
 		var sizes = [],
-			d;
-		for (var s = 0, len = __ad_data.tag.sizes.length; s < len; s++) {
-			d = __ad_data.tag.sizes[s].split("x");
-			sizes.push(parseInt(d[0]), parseInt(d[1]));
-		}
+		d;
+		d = __ad_data.tag.size.split("x");
+		sizes.push(parseInt(d[0]), parseInt(d[1]));
 		return sizes;
 	})();
 
@@ -71,7 +108,10 @@
 	 * @type String
 	 * @private
 	 */
-	var divId = 'ad-' + __ad_data.tag._id;
+	var divId = 'VH' + __ad_data.tag.pos;
+	var slotName = '/3185446/'+__ad_data.tag.pos;
+	var _url = __ad_data.context.url;
+	var _urlparts = _url.split('//');
 
 	/**
 	 * This is standard GPT implementation code, and can be replaced with implementation code for any ad server.
@@ -81,18 +121,30 @@
 
 	googletag.cmd.push(function() {
 		var slot = googletag.defineSlot(
-			__ad_data.tag.adUnit,
+			slotName,
 			sizes,
 			divId
 		).addService(googletag.pubads());
-		slot.setTargeting("url", url)
-		slot.setTargeting("ct", context);
-		slot.setTargeting("click", clickUrl);
-		for (var key in __ad_data.tag.targeting) {
-			slot.setTargeting(key, __ad_data.tag.targeting[key])
+		slot.setTargeting("vhurl", _urlparts[1]);
+		slot.setTargeting("property", "endocrineweb.com");
+		if(_dfp_groups.length) {
+			slot.setTargeting('groups', _dfp_groups);
+		}
+		if(_dfp_terms.length) {
+			slot.setTargeting('terms', _dfp_terms);
+		}
+		if(_dfp_high.length) {
+			slot.setTargeting('kwhigh', _dfp_high);
+		}
+		if(_dfp_low.length) {
+			slot.setTargeting('kwlow', _dfp_low);
+		}
+		if(window.__vhusr.vhid != undefined) {
+			slot.setTargeting('vhid', window.__vhusr.vhid);
 		}
 		googletag.pubads().enableSyncRendering();
 		googletag.enableServices();
 		googletag.display(divId);
 	});
-})(__ad_data);
+}
+//})(__ad_data);
