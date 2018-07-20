@@ -126,7 +126,9 @@ function __render_ad() {
 			divId
 		).addService(googletag.pubads());
 		slot.setTargeting("vhurl", _urlparts[1]);
-		slot.setTargeting("property", "endocrineweb.com");
+		if(__ad_data.tag.sitepage != undefined) {
+			slot.setTargeting('property', __ad_data.tag.sitepage);
+		}
 		if(_dfp_groups.length) {
 			slot.setTargeting('groups', _dfp_groups);
 		}
