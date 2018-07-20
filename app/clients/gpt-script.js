@@ -144,7 +144,6 @@ function __render_ad() {
 		if(window.__vhusr.vhid != undefined) {
 			slot.setTargeting('vhid', window.__vhusr.vhid);
 		}
-		googletag.pubads().enableSyncRendering();
 		googletag.enableServices();
 		googletag.display(divId);
 	});
