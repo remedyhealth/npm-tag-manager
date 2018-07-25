@@ -10,7 +10,7 @@ var TagModel = require("./models/tag"),
 	networkFiles = {
 		gpt: {
 			script: {
-				externalFiles: ["http://www.googletagservices.com/tag/js/gpt.js"],
+				externalFiles: ["https://www.googletagservices.com/tag/js/gpt.js"],
 				staticFiles: [__dirname + "/clients/gpt-script.js"]
 			}
 		},

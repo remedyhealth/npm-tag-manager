@@ -1,4 +1,4 @@
-(function(){
+(function(__ad_data){
 	function _getvhid() {
 	  var match = RegExp('[?&]vhid=([^&]*)').exec(window.location.search);
 	  return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
@@ -149,4 +149,4 @@
 			googletag.display(divId);
 		});
 	}
-}());
+}(__ad_data));
