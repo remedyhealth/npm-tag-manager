@@ -112,6 +112,8 @@
 		var slotName = '/3185446/'+__ad_data.tag.pos;
 		var _url = __ad_data.context.url;
 		var _urlparts = _url.split('//');
+		var _urlsubparts = _urlparts[1].split('?');
+		var dfpurl = _urlsubparts[0].substring(_urlsubparts[0].length - 40, _urlsubparts[0].length);
 
 		/**
 		 * This is standard GPT implementation code, and can be replaced with implementation code for any ad server.
@@ -126,7 +128,7 @@
 				divId
 			);
 			slot.addService(googletag.pubads());
-			slot.setTargeting("vhurl", _urlparts[1]);
+			slot.setTargeting("vhurl", dfpurl);
 			if(__ad_data.tag.sitepage != undefined) {
 				slot.setTargeting('property', __ad_data.tag.sitepage);
 			}
