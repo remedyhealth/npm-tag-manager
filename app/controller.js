@@ -152,7 +152,8 @@ var Controller = function(options, next) {
 		var data = {
 				timeForRequest: (Date.now() - startTime) + "ms",
 				tag: results.tagData,
-				context: results.contextData
+				context: results.contextData,
+				_url: options.url
 
 			},
 			dataString = "var __ad_data = " + JSON.stringify(data, null, "\t") + ";";

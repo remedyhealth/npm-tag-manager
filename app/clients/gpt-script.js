@@ -108,18 +108,12 @@
 		 * @type String
 		 * @private
 		 */
+		var _url = __ad_data._url;
+		var _urlparts = _url.split('//');
+		var _urlsubparts = _urlparts[1].split('?');
+		var dfpurl = _urlsubparts[0].substring(_urlsubparts[0].length - 40, _urlsubparts[0].length);		
 		var divId = 'VH' + __ad_data.tag.pos;
 		var slotName = '/3185446/'+__ad_data.tag.pos;
-		if(__ad_data.context && __ad_data.context.url) {
-			var _url = __ad_data.context.url;
-			var _urlparts = _url.split('//');
-			var _urlsubparts = _urlparts[1].split('?');
-			var dfpurl = _urlsubparts[0].substring(_urlsubparts[0].length - 40, _urlsubparts[0].length);		
-		} else {
-			var _url = '';
-			var _urlparts = [];
-			var dfpurl = '';
-		}
 
 		/**
 		 * This is standard GPT implementation code, and can be replaced with implementation code for any ad server.
