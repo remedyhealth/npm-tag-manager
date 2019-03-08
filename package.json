@@ -1,6 +1,6 @@
 {
   "name": "npm-tag-manager",
-  "version": "0.0.5",
+  "version": "0.3.0",
   "main": "./app/app.js",
   "dependencies": {
     "async": "^2.6.2",
