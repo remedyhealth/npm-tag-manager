@@ -1,15 +1,15 @@
 {
   "name": "npm-tag-manager",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "main": "./app/app.js",
   "dependencies": {
     "async": "^2.6.2",
     "atob": "^2.1.2",
-    "babel": "^5.8.38",
+    "babel": "^6.23.0",
     "body-parser": "^1.18.3",
     "btoa": "^1.2.1",
     "express": "^4.16.4",
-    "jsdom": "^3.*",
+    "jsdom": "^11.12.0",
     "mongoose": "5.4.17",
     "request": "*"
   }
